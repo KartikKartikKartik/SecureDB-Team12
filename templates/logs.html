@@ -1,65 +1,310 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Logs</title>
+    <title>SecureDB Logs</title>
     <style>
+      :root {
+        --bg: #e9ecef;
+        --panel: #ffffff;
+        --muted: #4f4f54;
+        --border: #c2c6cc;
+        --accent: #121212;
+        --card: #f7f7f9;
+        --shadow: rgba(18, 18, 18, 0.08);
+      }
+
       * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
-        font-family: sans-serif;
-        color: white;
       }
+
+      html,
       body {
-        overflow: hidden;
-        background-color: rgb(46, 46, 46);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
+        min-height: 100%;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        color: var(--accent);
+        background: var(--bg);
       }
-      section.logs {
-        width: 98vw;
-        height: 85vh;
-        background-color: rgb(85, 85, 85);
-        border-radius: 10px;
-        overflow-y: scroll;
+
+      body {
+        padding: 24px;
+      }
+
+      .page {
+        max-width: 1040px;
+        margin: 0 auto;
+      }
+
+      nav {
         display: flex;
         align-items: center;
-        flex-direction: column;
+        justify-content: space-between;
+        padding: 22px 16px;
+        background: #fafbfc;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 8px 24px var(--shadow);
+        margin-bottom: 24px;
       }
-      h1 {
+
+      .title {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .issue-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 18px 46px var(--shadow);
+        margin-bottom: 24px;
+      }
+
+      .issue-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: 14px;
+        background: var(--card);
+        border: 1px solid #e0e0e4;
+      }
+
+      .issue-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .issue-text {
+        color: var(--accent);
+        line-height: 1.5;
+      }
+
+      .issue-meta {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 8px;
+      }
+
+      .issue-pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #f0f0f3;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .issue-action {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .logs-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 18px 46px var(--shadow);
+      }
+
+      .log-item {
+        display: grid;
+        gap: 12px;
+        padding: 20px;
+        border-radius: 16px;
+        background: var(--card);
+        border: 1px solid #e0e0e4;
+        margin-bottom: 18px;
+      }
+
+      .log-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .log-meta div {
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+
+      .log-message {
+        color: var(--accent);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .issue-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 18px 46px var(--shadow);
+        margin-bottom: 24px;
+      }
+
+      .issue-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: 14px;
+        background: var(--card);
+        border: 1px solid #e0e0e4;
+      }
+
+      .issue-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .issue-text {
+        color: var(--accent);
+        line-height: 1.5;
+      }
+
+      .issue-action {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .issue-pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #f0f0f3;
+        color: var(--muted);
+        font-size: 0.82rem;
+        margin-left: 12px;
+      }
+
+      .no-logs {
+        padding: 42px 0;
         text-align: center;
-        font-size: 4rem;
+        color: var(--muted);
       }
-      .log {
-        display: flex;
-        width: 90%;
-        background-color: rgb(41, 41, 41);
-        margin: 30px;
-        padding: 20px 10px;
-        border-radius: 5px;
-        justify-content: space-evenly;
+
+      .meta-label {
+        color: var(--accent);
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 16px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      @media (max-width: 720px) {
+        .log-meta {
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Logs</h1>
-    <section class="logs">
-      {% if logs %} {% for x in logs %}
-      <div class="log">
-        <div class="time box">Time: {{ x["time"] }}</div>
-        <div class="type box">Type: {{ x["type"] }}</div>
-        <div class="statement box">{{ x["statement"] }}</div>
-        <div class="irregularities box">
-          Irregularities:{{ x["irregularities"] }}
+    <div class="page">
+      <nav>
+        <div>
+          <h1 class="title">SecureDB Logs</h1>
+          <p class="subtitle">
+            Recent integrity and scan events with severity scoring.
+          </p>
         </div>
+        <a class="back-link" href="/main">Back to dashboard</a>
+      </nav>
+
+      {% if issues %}
+      <div class="issue-panel">
+        <h2 class="title">Active Issues</h2>
+        <br />
+        {% for issue in issues %}
+        <div class="issue-item">
+          <div>
+            <div class="issue-text">{{ issue.statement }}</div>
+            <div class="issue-meta">
+              <span class="issue-pill">Severity {{ issue.severity }}</span>
+              <span class="issue-pill">Last seen {{ issue.last_seen }}</span>
+              {% if issue.acknowledged %}
+              <span class="issue-pill">Acknowledged</span>
+              {% endif %}
+            </div>
+          </div>
+          {% if not issue.acknowledged %}
+          <form action="/acknowledge" method="POST">
+            <input
+              type="hidden"
+              name="statement"
+              value="{{ issue.statement }}"
+            />
+            <button
+              class="issue-action"
+              type="submit"
+              onmouseover="this.style.cursor = 'pointer'"
+            >
+              Acknowledge
+            </button>
+          </form>
+          {% else %}
+          <span class="issue-pill">Held</span>
+          {% endif %}
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %} {% else %}
-      <p style="color: white; text-align: center">No logs found.</p>
       {% endif %}
-    </section>
+
+      <div class="logs-panel">
+        {% if logs %} {% for x in logs %}
+        <article class="log-item">
+          <div class="log-meta">
+            <div><span class="meta-label">Time:</span> {{ x["time"] }}</div>
+            <div><span class="meta-label">Type:</span> {{ x["type"] }}</div>
+            <div>
+              <span class="meta-label">Score:</span> {{ x.get("score", 0) }}
+            </div>
+          </div>
+          <div class="log-message">{{ x["statement"] }}</div>
+          <div class="log-meta">
+            <div>
+              <span class="meta-label">Irregularities:</span> {{
+              x["irregularities"] or "None" }}
+            </div>
+          </div>
+        </article>
+        {% endfor %} {% else %}
+        <div class="no-logs">No logs found.</div>
+        {% endif %}
+      </div>
+    </div>
   </body>
 </html>
