@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <section class="content">
+      <h1 class="title">File monitoring system</h1>
+      <form action="" method="POST" id="monitoring">
+        <label for="file">Enter path of folder to start monitoring: </label>
+        <input
+          type="text"
+          name="file"
+          id="file"
+          placeholder="Enter directory: "
+        />
+        <input type="text" value="monitor" name="monitor" hidden />
+        <button id="monitor">Start monitoring</button>
+      </form>
+      <form action="" method="POST" id="integrit">
+        <input type="text" value="integrity" name="monitor" hidden />
+        <input type="submit" value="Check integrity" id="integrity" />
+      </form>
+      <form action="" method="POST" id="stop">
+        <label for="file">Enter path of folder to stop monitoring: </label>
+        <input
+          type="text"
+          name="file"
+          id="file"
+          placeholder="Enter directory: "
+        />
+        <input type="text" value="stop" name="monitor" hidden />
+        <button id="monitor">Stop monitoring</button>
+      </form>
+      <form action="" method="POST" id="stop">
+        <label for="file">Start periodic scanning: </label>
+        <input
+          type="text"
+          name="time"
+          id="time"
+          placeholder="Enter time delay (seconds): "
+        />
+        <input type="text" value="start_scan" name="monitor" hidden />
+        <button id="monitor">Start scanning</button>
+      </form>
+      <form action="" method="POST" id="integrit">
+        <input type="text" value="stop_scan" name="monitor" hidden />
+        <input type="submit" value="Pause scanning" id="scan" />
+      </form>
+    </section>
+    <script>
+      function monitor(event) {
+        event.preventDefault();
+        const filePath = document.getElementById("file").value;
+        document.getElementById("monitoring").submit();
+      }
+
+      document.getElementById("monitor").addEventListener("click", monitor);
+    </script>
+  </body>
+</html>

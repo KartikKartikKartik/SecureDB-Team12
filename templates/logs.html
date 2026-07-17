@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logs</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+        color: white;
+      }
+      body {
+        overflow: hidden;
+        background-color: rgb(46, 46, 46);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+      section.logs {
+        width: 98vw;
+        height: 85vh;
+        background-color: rgb(85, 85, 85);
+        border-radius: 10px;
+        overflow-y: scroll;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      h1 {
+        text-align: center;
+        font-size: 4rem;
+      }
+      .log {
+        display: flex;
+        width: 90%;
+        background-color: rgb(41, 41, 41);
+        margin: 30px;
+        padding: 20px 10px;
+        border-radius: 5px;
+        justify-content: space-evenly;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Logs</h1>
+    <section class="logs">
+      {% if logs %} {% for x in logs %}
+      <div class="log">
+        <div class="time box">Time: {{ x["time"] }}</div>
+        <div class="type box">Type: {{ x["type"] }}</div>
+        <div class="statement box">{{ x["statement"] }}</div>
+        <div class="irregularities box">
+          Irregularities:{{ x["irregularities"] }}
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <p style="color: white; text-align: center">No logs found.</p>
+      {% endif %}
+    </section>
+  </body>
+</html>
