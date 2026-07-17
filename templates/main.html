@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecureDB</title>
+    <style>
+      :root {
+        --bg: #e9ecef;
+        --panel: #ffffff;
+        --muted: #4f4f54;
+        --border: #c2c6cc;
+        --accent: #121212;
+        --btn-primary: #1f1f1f;
+        --btn-secondary: #4b4b4d;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        min-height: 100%;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        color: var(--accent);
+        background: var(--bg);
+      }
+
+      nav {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fafbfc;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 1px 0 rgba(18, 18, 18, 0.05);
+      }
+      .title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 0.24px;
+      }
+
+      .container {
+        max-width: 980px;
+        margin: 32px auto;
+        padding: 24px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 12px 32px rgba(18, 18, 18, 0.06);
+      }
+
+      h2.small {
+        margin-bottom: 14px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      label {
+        display: block;
+        font-size: 0.95rem;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 14px 14px;
+        border: 1px solid #b8bbc0;
+        border-radius: 12px;
+        background: #fbfbfb;
+        color: var(--accent);
+        font-size: 0.96rem;
+      }
+
+      .row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 18px;
+        border-radius: 12px;
+        border: 0;
+        cursor: pointer;
+        background: var(--btn-primary);
+        color: #fff;
+        font-weight: 700;
+        transition: background 0.2s ease;
+      }
+      .btn:hover {
+        background: #0f0f0f;
+      }
+      .btn.secondary {
+        background: var(--btn-secondary);
+      }
+      .btn.secondary:hover {
+        background: #3b3b3d;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .score-banner {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+      }
+
+      .score-card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 18px 46px rgba(18, 18, 18, 0.08);
+        text-align: center;
+      }
+
+      .score-label {
+        font-size: 0.83rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .score-value {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+
+      .score-value.good {
+        color: #1e7e34;
+      }
+
+      .score-value.warning {
+        color: #d39e00;
+      }
+
+      .score-value.danger {
+        color: #c82333;
+      }
+
+      .score-note {
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .score-banner {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+      }
+
+      .small {
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .floating-card {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        max-width: 340px;
+        width: min(340px, calc(100vw - 32px));
+        background: var(--panel);
+        border: 2px solid var(--border);
+        border-radius: 18px;
+        padding: 20px 22px;
+        box-shadow: 0 24px 54px rgba(18, 18, 18, 0.15);
+        z-index: 1000;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .floating-card.success {
+        border-color: #1e7e34;
+      }
+
+      .floating-card.warning {
+        border-color: #d39e00;
+      }
+
+      .floating-card.danger {
+        border-color: #c82333;
+      }
+
+      .floating-card.info {
+        border-color: #0f62fe;
+      }
+
+      #malwareAlerts {
+        position: fixed;
+        left: 24px;
+        bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 1000;
+        width: min(340px, calc(100vw - 32px));
+      }
+
+      .malware-alert {
+        background: var(--panel);
+        border: 2px solid #c82333;
+        border-radius: 12px;
+        padding: 12px 14px;
+        box-shadow: 0 18px 36px rgba(200, 35, 51, 0.12);
+      }
+
+      .malware-alert .close-btn {
+        background: transparent;
+        border: 0;
+        font-size: 18px;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .floating-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .floating-message {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 520px) {
+        .container {
+          margin: 18px;
+          padding: 18px;
+        }
+        .floating-card {
+          right: 12px;
+          bottom: 12px;
+          width: calc(100vw - 24px);
+        }
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <nav>
+        <h1 class="title">SecureDB</h1>
+      </nav>
+      <div class="container">
+        <div class="score-banner">
+          <div class="score-card">
+            <div class="score-label">Security score</div>
+            {% set status = 'good' if security_score >= 70 else 'warning' if
+            security_score >= 40 else 'danger' %}
+            <div class="score-value {{ status }}">
+              {{ security_score if security_score is not none else 100 }}%
+            </div>
+            <div class="score-note">
+              Based on recent log severity and integrity checks.
+            </div>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h2 class="small">Start Monitoring</h2>
+            <form action="" method="POST" id="monitoring">
+              <label for="file">Folder path</label>
+              <input
+                type="text"
+                name="file"
+                id="file"
+                placeholder="e.g. C:\\data\\safefiles"
+              />
+              <input type="text" value="monitor" name="monitor" hidden />
+              <div class="row">
+                <button class="btn" type="submit">Start monitoring</button>
+                <span class="muted"
+                  >Monitors files and stores integrity hashes</span
+                >
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2 class="small">Integrity</h2>
+            <p class="muted">
+              Run a one-time integrity check across monitored folders.
+            </p>
+            <form action="" method="POST" id="integrit">
+              <input type="text" value="integrity" name="monitor" hidden />
+              <div class="row actions">
+                <input
+                  class="btn"
+                  type="submit"
+                  value="Check integrity"
+                  style="background: #444; color: #fff; border-radius: 8px"
+                />
+                <a class="btn secondary" href="/logs">View logs</a>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2 class="small">Stop Monitoring</h2>
+            <form action="" method="POST">
+              <label for="file_stop">Folder path</label>
+              <input
+                type="text"
+                name="file"
+                id="file_stop"
+                placeholder="Folder to stop"
+              />
+              <input type="text" value="stop" name="monitor" hidden />
+              <div class="row">
+                <button class="btn" type="submit">Stop monitoring</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2 class="small">Scanning</h2>
+            <form action="" method="POST">
+              <label for="time">Periodic scan interval (seconds)</label>
+              <input
+                type="number"
+                name="time"
+                id="time"
+                placeholder="e.g. 300"
+              />
+              <div class="row">
+                <button
+                  class="btn"
+                  type="submit"
+                  name="monitor"
+                  value="start_scan"
+                >
+                  Start scanning
+                </button>
+                <button
+                  class="btn secondary"
+                  type="submit"
+                  name="monitor"
+                  value="stop_scan"
+                >
+                  Pause scanning
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if malware_alerts %}
+    <div id="malwareAlerts">
+      {% for m in malware_alerts %}
+      <div class="malware-alert">
+        <div
+          style="
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+          "
+        >
+          <div style="flex: 1">
+            <div class="floating-title">Malware detected</div>
+            <div class="floating-message" style="margin-top: 6px">
+              {{ m.statement }}
+            </div>
+            <div style="margin-top: 8px">
+              <a href="/logs" class="small">Acknowledge in logs</a>
+            </div>
+          </div>
+          <div>
+            <button
+              class="close-btn"
+              aria-label="Close"
+              title="Close"
+              onclick="this.closest('.malware-alert').remove()"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% endif %} {% if action_card %}
+    <div class="floating-card {{ action_card.type }}" id="floatingCard">
+      <div class="floating-title">{{ action_card.title }}</div>
+      <div class="floating-message">{{ action_card.message }}</div>
+    </div>
+    <script>
+      setTimeout(() => {
+        const card = document.getElementById("floatingCard");
+        if (card) {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(10px)";
+          setTimeout(() => card.remove(), 300);
+        }
+      }, 3600);
+    </script>
+    {% endif %}
+  </body>
+</html>
