@@ -1,63 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <style>
+      :root {
+        --bg: #e9ecef;
+        --panel: #ffffff;
+        --muted: #4f4f54;
+        --border: #c2c6cc;
+        --accent: #121212;
+        --btn-primary: #1f1f1f;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        color: var(--accent);
+        background: var(--bg);
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      nav {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto 28px;
+        text-align: center;
+      }
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 0.24px;
+      }
+
+      .main {
+        width: 100%;
+        max-width: 520px;
+      }
+
+      .pass {
+        width: 100%;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 32px;
+        box-shadow: 0 18px 46px rgba(18, 18, 18, 0.08);
+      }
+
+      .pass form {
+        display: grid;
+        gap: 18px;
+      }
+
+      .pass form label {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .pass form input[type="password"] {
+        width: 100%;
+        padding: 14px 14px;
+        border-radius: 12px;
+        border: 1px solid #b8bbc0;
+        background: #fbfbfb;
+        color: var(--accent);
+        font-size: 1rem;
+      }
+
+      .pass form input[type="submit"] {
+        width: 100%;
+        padding: 14px 14px;
+        border-radius: 12px;
+        border: 0;
+        background: var(--btn-primary);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 700;
+        transition: background 0.2s ease;
+      }
+
+      .pass form input[type="submit"]:hover {
+        background: #101010;
+      }
+
+      @media (max-width: 520px) {
+        .pass {
+          padding: 24px;
+        }
+      }
+    </style>
   </head>
   <body>
     <section class="content">
-      <h1 class="title">File monitoring system</h1>
-      <form action="" method="POST" id="monitoring">
-        <label for="file">Enter path of folder to start monitoring: </label>
-        <input
-          type="text"
-          name="file"
-          id="file"
-          placeholder="Enter directory: "
-        />
-        <input type="text" value="monitor" name="monitor" hidden />
-        <button id="monitor">Start monitoring</button>
-      </form>
-      <form action="" method="POST" id="integrit">
-        <input type="text" value="integrity" name="monitor" hidden />
-        <input type="submit" value="Check integrity" id="integrity" />
-      </form>
-      <form action="" method="POST" id="stop">
-        <label for="file">Enter path of folder to stop monitoring: </label>
-        <input
-          type="text"
-          name="file"
-          id="file"
-          placeholder="Enter directory: "
-        />
-        <input type="text" value="stop" name="monitor" hidden />
-        <button id="monitor">Stop monitoring</button>
-      </form>
-      <form action="" method="POST" id="stop">
-        <label for="file">Start periodic scanning: </label>
-        <input
-          type="text"
-          name="time"
-          id="time"
-          placeholder="Enter time delay (seconds): "
-        />
-        <input type="text" value="start_scan" name="monitor" hidden />
-        <button id="monitor">Start scanning</button>
-      </form>
-      <form action="" method="POST" id="integrit">
-        <input type="text" value="stop_scan" name="monitor" hidden />
-        <input type="submit" value="Pause scanning" id="scan" />
-      </form>
+      <nav>
+        <h1 class="title">SecureDB</h1>
+      </nav>
+      <div class="main">
+        <div class="pass">
+          <form action="/login" method="POST">
+            <label for="pass">Enter password to access the dashboard: </label>
+            <input type="password" name="password" id="pass" />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      </div>
     </section>
-    <script>
-      function monitor(event) {
-        event.preventDefault();
-        const filePath = document.getElementById("file").value;
-        document.getElementById("monitoring").submit();
-      }
-
-      document.getElementById("monitor").addEventListener("click", monitor);
-    </script>
   </body>
 </html>
+
+<!--  -->
