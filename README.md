@@ -1,3 +1,5 @@
+<img src="templates/img/logo.png" alt="Project Screenshot" width="300">
+
 # A R G U S - SecureDB
 
 ARGUS is a simple Flask-based file integrity monitoring dashboard. It lets administrators monitor folders, verify file hashes, detect known malware hashes and review logs.
