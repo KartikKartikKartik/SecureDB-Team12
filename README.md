@@ -1,4 +1,4 @@
-# SecureDB-Team12
+# A R G E N T U S
 
 SecureDB is a simple Flask-based file integrity monitoring dashboard. It lets administrators monitor folders, verify file hashes, detect known malware hashes and review logs.
 
